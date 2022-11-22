@@ -16,7 +16,7 @@
       notify:
        - Restart httpd
     - name: Configuring firewall to enable port 80/tcp
-      firewalld:
+      ansible.posix.firewalld:
         port: 80/tcp
         state: enabled 
         permanent: yes
