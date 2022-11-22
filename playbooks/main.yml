@@ -1,0 +1,35 @@
+--- 
+- hosts: all
+  tasks:
+    - name: Install httpd web server
+      yum:  
+        name: httpd
+        state: present
+    - name: enabling the httpd web server
+      service:
+        name: httpd
+        enabled: yes
+    - name: configure httpd web server default html 
+      template:
+        src: "index.html.j2"
+        dest: /var/www/html/index.html
+      notify:
+       - Restart httpd
+    - name: Configuring firewall to enable port 80/tcp
+      firewalld:
+        port: 80/tcp
+        state: enabled 
+        permanent: yes
+        immediate: true
+      notify:
+        - Restart firewall
+ 
+  handlers:
+    - name: Restart httpd
+      service:
+        name: httpd
+        state: restarted
+    - name: Restart firewall
+      service:
+        name: firewalld
+        state: restarted
