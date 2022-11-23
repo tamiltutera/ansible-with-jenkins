@@ -4,7 +4,7 @@ pipeline {
         ANSIBLE_PRIVATE_KEY=credentials('webserver-private-key')
     }
 
-    steps {
+    stages {
         stage('Install Web Server') {
             steps {
                 sh 'ansible-galaxy collection install -r requirements.yml'
